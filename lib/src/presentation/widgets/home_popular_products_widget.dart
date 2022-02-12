@@ -1,4 +1,3 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shopping_cart/src/bloc/favorite/favorite_bloc.dart';
@@ -100,8 +99,14 @@ class _HomePopularProductsWidgetState extends State<HomePopularProductsWidget> {
                                           if (favoriteState is FavoriteLoaded) {
                                             final liked = favoriteState
                                                 .items.favorites
-                                                .contains(
-                                                    state.records.result[i]);
+                                                .map((item) => item.model)
+                                                .contains(state
+                                                    .records.result[i].model);
+
+                                            // final liked = favoriteState
+                                            //     .items.favorites
+                                            //     .contains(
+                                            //         state.records.result[i]);
                                             return IconButton(
                                               onPressed: () {
                                                 context
@@ -130,10 +135,12 @@ class _HomePopularProductsWidgetState extends State<HomePopularProductsWidget> {
                                   Container(
                                     width: 150,
                                     height: 150,
-                                    decoration: const BoxDecoration(
+                                    decoration: BoxDecoration(
                                       image: DecorationImage(
-                                        image: AssetImage(
-                                            "assets/images/guitar.png"),
+                                        image: AssetImage(state
+                                            .records
+                                            .result[i]
+                                            .image), // "assets/images/guitar.png"
                                         fit: BoxFit.cover,
                                       ),
                                     ),

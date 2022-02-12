@@ -22,8 +22,12 @@ class ProductError extends ProductState {
 
 class ProductLoaded extends ProductState {
   final ProductFromBackend records;
+  final ProductFromBackend originalRecords;
+  final String searchText;
+  final String category;
 
-  const ProductLoaded(this.records);
+  const ProductLoaded(
+      this.records, this.originalRecords, this.searchText, this.category);
   @override
-  List<Object> get props => [records];
+  List<Object> get props => [records, originalRecords];
 }

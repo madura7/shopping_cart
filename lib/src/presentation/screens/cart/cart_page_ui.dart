@@ -158,9 +158,10 @@ class _CartPageUIState extends State<CartPageUI> {
                             child: Container(
                               width: 90,
                               height: 90,
-                              decoration: const BoxDecoration(
+                              decoration: BoxDecoration(
                                 image: DecorationImage(
-                                  image: AssetImage("assets/images/guitar.png"),
+                                  image: AssetImage(state.cart.items[i]
+                                      .image), // "assets/images/guitar.png"
                                   fit: BoxFit.fitWidth,
                                 ),
                               ),

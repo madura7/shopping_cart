@@ -31,7 +31,9 @@ class FavoriteBloc extends Bloc<FavoriteEvent, FavoriteState> {
     final state = this.state;
     if (state is FavoriteLoaded) {
       try {
-        if (state.items.favorites.contains(event.item)) {
+        if (state.items.favorites
+            .map((item) => item.model)
+            .contains(event.item.model)) {
           // repository.removeItemFromFavorite(event.item);
           emit(
             FavoriteLoaded(

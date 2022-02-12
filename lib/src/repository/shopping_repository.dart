@@ -10,7 +10,7 @@ class Repository {
   ProductRepository productRepo = ProductRepository();
 
   // Product
-  Future<ProductFromBackend> getProducts() => productRepo.getProducts();
+  Future<ProductFromBackend> getProducts() => productRepo.readProductJson();
 
   // Cart
   List<ProductModel> loadCartItems() => _items;

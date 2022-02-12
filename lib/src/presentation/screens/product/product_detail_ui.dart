@@ -30,8 +30,10 @@ class _ProductDetailUIState extends State<ProductDetailUI> {
           BlocBuilder<FavoriteBloc, FavoriteState>(
             builder: (context, favoriteState) {
               if (favoriteState is FavoriteLoaded) {
-                final liked =
-                    favoriteState.items.favorites.contains(widget.productModel);
+                final liked = favoriteState.items.favorites
+                    .map((item) => item.model)
+                    .contains(widget.productModel.model);
+
                 return IconButton(
                   onPressed: () {
                     context.read<FavoriteBloc>().add(
@@ -72,9 +74,10 @@ class _ProductDetailUIState extends State<ProductDetailUI> {
             Container(
               width: MediaQuery.of(context).size.width - 80,
               height: (MediaQuery.of(context).size.height * 0.60) - 100,
-              decoration: const BoxDecoration(
+              decoration: BoxDecoration(
                 image: DecorationImage(
-                  image: AssetImage("assets/images/guitar.png"),
+                  image: AssetImage(
+                      widget.productModel.image), // "assets/images/guitar.png"
                   fit: BoxFit.cover,
                 ),
               ),

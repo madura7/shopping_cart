@@ -10,6 +10,8 @@ part 'product_state.dart';
 class ProductBloc extends Bloc<ProductEvent, ProductState> {
   ProductBloc(this._repository) : super(ProductInitial()) {
     on<GetProducts>(_onGetProducts);
+    on<FilterProducts>(_onFilterProducts);
+    on<SearchProducts>(_onSearchProducts);
   }
 
   final Repository _repository;
@@ -17,10 +19,96 @@ class ProductBloc extends Bloc<ProductEvent, ProductState> {
   void _onGetProducts(GetProducts event, Emitter<ProductState> emit) async {
     emit(ProductLoading());
     try {
-      final products = await _repository.getProducts();
-      emit(ProductLoaded(products));
+      var products = await _repository.getProducts();
+      emit(ProductLoaded(products, products, '', ''));
     } catch (_) {
       emit(ProductError(_.toString()));
     }
+  }
+
+  void _onFilterProducts(
+      FilterProducts event, Emitter<ProductState> emit) async {
+    // emit(ProductLoading());
+    try {
+      // var products = await _repository.getProducts();
+      final state = this.state;
+
+      if (state is ProductLoaded) {
+        var products = ProductFromBackend(
+            status: true, result: state.originalRecords.result);
+
+        if (state.searchText != "" || event.category != "") {
+          if (event.category != "") {
+            // filter by category
+            products = filterByCategory(products, event);
+          }
+          if (state.searchText != "") {
+            // search by model
+            // products = searchByModel(products, event);
+          }
+        }
+
+        emit(ProductLoaded(
+          products,
+          state.originalRecords,
+          state.searchText,
+          state.category,
+        ));
+      }
+    } catch (_) {
+      emit(ProductError(_.toString()));
+    }
+  }
+
+  void _onSearchProducts(
+      SearchProducts event, Emitter<ProductState> emit) async {
+    // emit(ProductLoading());
+    try {
+      // var products = await _repository.getProducts();
+      final state = this.state;
+
+      if (state is ProductLoaded) {
+        var products = ProductFromBackend(
+            status: true, result: state.originalRecords.result);
+
+        if (event.searchText != "" || state.category != "") {
+          if (state.category != "") {
+            // filter by category
+            // products = filterByCategory(products, event);
+          }
+          if (event.searchText != "") {
+            // search by model
+            products = searchByModel(products, event);
+          }
+        }
+
+        emit(ProductLoaded(
+          products,
+          state.originalRecords,
+          state.searchText,
+          state.category,
+        ));
+      }
+    } catch (_) {
+      emit(ProductError(_.toString()));
+    }
+  }
+
+  ProductFromBackend filterByCategory(
+      ProductFromBackend products, FilterProducts event) {
+    return ProductFromBackend(
+        status: true,
+        result: products.result
+            .where((a) => a.category == event.category)
+            .toList());
+  }
+
+  ProductFromBackend searchByModel(
+      ProductFromBackend products, SearchProducts event) {
+    var list = products.result
+        .where((a) =>
+            a.model.toUpperCase().contains(event.searchText.toUpperCase()))
+        .toList();
+    return ProductFromBackend(status: true, result: list);
   }
 }

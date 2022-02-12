@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:shopping_cart/src/bloc/product/product_bloc.dart';
+import 'package:shopping_cart/src/model/category_model.dart';
 import 'package:shopping_cart/src/presentation/widgets/home_category_widget.dart';
 import 'package:shopping_cart/src/presentation/widgets/home_popular_products_widget.dart';
 import 'package:shopping_cart/src/presentation/widgets/home_welcome_widget.dart';
@@ -16,12 +19,14 @@ class _HomePageUIState extends State<HomePageUI> {
   void initState() {
     super.initState();
 
-    categoryList.add("piano");
-    categoryList.add("guitar");
-    categoryList.add("drums");
+    categoryList.clear();
+    categoryList
+        .add(CategoryModel(value: "guitar", color: const Color(0xffFE8EA3)));
+    categoryList
+        .add(CategoryModel(value: "piano", color: const Color(0xffFED978)));
+    categoryList
+        .add(CategoryModel(value: "drums", color: const Color(0xffA7ECC6)));
   }
-
-  List<String> categoryList = List<String>.empty(growable: true);
 
   @override
   Widget build(BuildContext context) {
@@ -50,7 +55,9 @@ class _HomePageUIState extends State<HomePageUI> {
                         border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(30))),
                     onChanged: (value) {
-                      // do something
+                      context.read<ProductBloc>().add(
+                            SearchProducts(value),
+                          );
                     },
                   ),
                   const SizedBox(height: 50),
