@@ -13,6 +13,9 @@ dependencies:
 
   cupertino_icons: ^1.0.2
   cached_network_image: ^3.2.0
+  flutter_bloc: ^8.0.1 # State Management
+  http: ^0.13.4 # http client
+  equatable: ^2.0.3 # allows to compare two object for equality
 
 dev_dependencies:
   flutter_test:

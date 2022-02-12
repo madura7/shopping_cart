@@ -20,3 +20,5 @@ const mdTextSize = 18.0;
 const lgTextSize = 22.0;
 const xlTextSize = 26.0;
 const xxlTextSize = 30.0;
+
+const currency = "Rs ";

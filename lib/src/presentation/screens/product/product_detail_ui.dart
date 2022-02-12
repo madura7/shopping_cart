@@ -1,11 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:shopping_cart/src/bloc/cart/cart_bloc.dart';
+import 'package:shopping_cart/src/bloc/favorite/favorite_bloc.dart';
+import 'package:shopping_cart/src/model/product_model.dart';
 import 'package:shopping_cart/src/presentation/screens/cart/cart_page_ui.dart';
 import 'package:shopping_cart/src/resources/constants.dart';
 
 class ProductDetailUI extends StatefulWidget {
-  const ProductDetailUI({Key? key, required this.backgroundColor})
+  const ProductDetailUI(
+      {Key? key, required this.backgroundColor, required this.productModel})
       : super(key: key);
   final Color backgroundColor;
+  final ProductModel productModel;
 
   @override
   State<ProductDetailUI> createState() => _ProductDetailUIState();
@@ -21,7 +27,30 @@ class _ProductDetailUIState extends State<ProductDetailUI> {
         backgroundColor: widget.backgroundColor,
         actions: [
           IconButton(onPressed: () {}, icon: const Icon(Icons.share)),
-          IconButton(onPressed: () {}, icon: const Icon(Icons.favorite)),
+          BlocBuilder<FavoriteBloc, FavoriteState>(
+            builder: (context, favoriteState) {
+              if (favoriteState is FavoriteLoaded) {
+                final liked =
+                    favoriteState.items.favorites.contains(widget.productModel);
+                return IconButton(
+                  onPressed: () {
+                    context.read<FavoriteBloc>().add(
+                          FavoriteItemToggle(
+                            widget.productModel,
+                          ),
+                        );
+                  },
+                  icon: Icon(
+                    Icons.favorite,
+                    color: liked ? Colors.red : Colors.white,
+                  ),
+                );
+              }
+
+              return IconButton(
+                  onPressed: () {}, icon: const Icon(Icons.favorite));
+            },
+          ),
           IconButton(
               onPressed: () {
                 Navigator.push(
@@ -50,6 +79,11 @@ class _ProductDetailUIState extends State<ProductDetailUI> {
                 ),
               ),
             ),
+            // CachedNetworkImage(
+            //   imageUrl: widget.productModel.image,
+            //   width: MediaQuery.of(context).size.width - 80,
+            //   height: (MediaQuery.of(context).size.height * 0.60) - 100,
+            // ),
           ],
         ),
       ),
@@ -75,10 +109,10 @@ class _ProductDetailUIState extends State<ProductDetailUI> {
               children: [
                 const SizedBox(height: 10),
                 Row(
-                  children: const [
+                  children: [
                     Text(
-                      "OCCC112",
-                      style: TextStyle(
+                      widget.productModel.model,
+                      style: const TextStyle(
                         color: kSecondaryTextColor,
                         fontWeight: FontWeight.bold,
                         fontSize: xlTextSize,
@@ -87,10 +121,11 @@ class _ProductDetailUIState extends State<ProductDetailUI> {
                   ],
                 ),
                 const SizedBox(height: 10),
-                productDetailContent("Brand", "Yamaha Yamaha "),
-                productDetailContent("Price", "299.00"),
-                productDetailContent("Color", "Red"),
-                productDetailContent("Weight", "2.3 Kg"),
+                productDetailContent("Brand", widget.productModel.brand),
+                productDetailContent(
+                    "Price", widget.productModel.price.toString()),
+                productDetailContent("Color", widget.productModel.colour),
+                productDetailContent("Weight", widget.productModel.weight),
                 const SizedBox(height: 20),
                 SizedBox(
                   width: MediaQuery.of(context).size.width,
@@ -106,9 +141,13 @@ class _ProductDetailUIState extends State<ProductDetailUI> {
                       'Add to Cart',
                       style: TextStyle(fontSize: 24),
                     ),
-                    onPressed: () {},
+                    onPressed: () {
+                      context
+                          .read<CartBloc>()
+                          .add(CartItemAdded(widget.productModel));
+                    },
                   ),
-                )
+                ),
               ],
             ),
           ),
@@ -128,7 +167,7 @@ class _ProductDetailUIState extends State<ProductDetailUI> {
             style: const TextStyle(
               color: kSecondaryTextColor,
               fontWeight: FontWeight.bold,
-              fontSize: lgTextSize,
+              fontSize: mdTextSize,
             ),
           ),
         ),
@@ -140,7 +179,7 @@ class _ProductDetailUIState extends State<ProductDetailUI> {
               value,
               style: const TextStyle(
                 color: kSecondaryTextColor,
-                fontSize: lgTextSize,
+                fontSize: mdTextSize,
               ),
             ),
           ),

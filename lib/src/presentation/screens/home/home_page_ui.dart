@@ -16,9 +16,9 @@ class _HomePageUIState extends State<HomePageUI> {
   void initState() {
     super.initState();
 
-    categoryList.add("Piano");
-    categoryList.add("Guitar");
-    categoryList.add("Drums");
+    categoryList.add("piano");
+    categoryList.add("guitar");
+    categoryList.add("drums");
   }
 
   List<String> categoryList = List<String>.empty(growable: true);
@@ -59,6 +59,7 @@ class _HomePageUIState extends State<HomePageUI> {
                   ),
                   const SizedBox(height: 50),
                   const HomePopularProductsWidget(),
+                  const SizedBox(height: 50),
                 ],
               ),
             ),

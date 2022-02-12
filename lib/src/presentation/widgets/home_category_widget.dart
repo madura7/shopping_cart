@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:shopping_cart/src/resources/constants.dart';
 
@@ -36,7 +37,7 @@ class HomeCategoryWidget extends StatelessWidget {
               return InkWell(
                 onTap: () {},
                 child: SizedBox(
-                  width: 200,
+                  width: 150,
                   child: Card(
                     shape: RoundedRectangleBorder(
                       side: const BorderSide(color: Colors.black),
@@ -48,14 +49,24 @@ class HomeCategoryWidget extends StatelessWidget {
                       child: Padding(
                         padding: const EdgeInsets.symmetric(
                             horizontal: 8, vertical: 4),
-                        child: Text(
-                          categoryList[i].toString(),
-                          textAlign: TextAlign.center,
-                          style: const TextStyle(
-                            fontSize: xsTextSize,
-                            fontWeight: FontWeight.w800,
-                            color: Colors.white,
-                          ),
+                        child: Row(
+                          children: [
+                            const SizedBox(width: 5),
+                            const Icon(
+                              CupertinoIcons.guitars,
+                              color: Colors.white,
+                            ),
+                            const SizedBox(width: 25),
+                            Text(
+                              categoryList[i].toString(),
+                              textAlign: TextAlign.center,
+                              style: const TextStyle(
+                                fontSize: mdTextSize,
+                                fontWeight: FontWeight.w800,
+                                color: Colors.white,
+                              ),
+                            ),
+                          ],
                         ),
                       ),
                     ),
