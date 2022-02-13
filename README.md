@@ -1,16 +1,22 @@
-# shopping_cart
+# Shopping Cart with Flutter
 
-A new Flutter project.
+## Features
+- View products
+- Add to favourite
+- Add to cart
+- Remove from cart
 
-## Getting Started
+## Plugin
+- Flutter Bloc :  https://pub.dev/packages/flutter_bloc
+- Provider : https://pub.dev/packages/provider
+- Shared preference : https://pub.dev/packages/shared_preferences
+- Flutter Launcher Icons : https://pub.dev/packages/flutter_launcher_icons
 
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
-
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+## Screenshots
+<div>
+  <img src="https://github.com/madura7/shopping_cart/blob/main/screenshot/1.png"  height="500" width="260"/>
+  <img src="https://github.com/madura7/shopping_cart/blob/main/screenshot/2.png"  height="500" width="260"/>
+  <img src="https://github.com/madura7/shopping_cart/blob/main/screenshot/3.png"  height="500" width="260"/>
+  <img src="https://github.com/madura7/shopping_cart/blob/main/screenshot/4.png"  height="500" width="260"/> 
+</div>
+ 
