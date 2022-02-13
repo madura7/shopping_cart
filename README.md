@@ -23,7 +23,7 @@
 ## Bloc pattern
 i have used flutter bloc pattern to design the application
 <div>
-  <img src="https://github.com/madura7/shopping_cart/blob/main/screenshot/bloc_pattern.png"  height="500" width="260"/>
+  <img src="https://github.com/madura7/shopping_cart/blob/main/screenshot/bloc_pattern.png"  height="500" width="500"/>
 </div>
 
 
