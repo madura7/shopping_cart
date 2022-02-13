@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:provider/provider.dart';
 import 'package:shopping_cart/src/bloc/cart/cart_bloc.dart';
 import 'package:shopping_cart/src/bloc/favorite/favorite_bloc.dart';
 import 'package:shopping_cart/src/bloc/product/product_bloc.dart';
+import 'package:shopping_cart/src/model/category_model.dart';
 import 'package:shopping_cart/src/presentation/screens/home/home_page_ui.dart';
 import 'package:shopping_cart/src/repository/shopping_repository.dart';
 import 'package:shopping_cart/src/resources/simple_bloc_observer.dart';
@@ -45,7 +47,10 @@ class MyApp extends StatelessWidget {
         theme: ThemeData(
           primarySwatch: Colors.blue,
         ),
-        home: const HomePageUI(),
+        home: ChangeNotifierProvider(
+          create: (_) => CategoryNotifierModel(),
+          child: const HomePageUI(),
+        ),
       ),
     );
   }

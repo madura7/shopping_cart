@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:provider/provider.dart';
 import 'package:shopping_cart/src/bloc/product/product_bloc.dart';
 import 'package:shopping_cart/src/model/category_model.dart';
 import 'package:shopping_cart/src/resources/constants.dart';
@@ -14,7 +15,6 @@ class HomeCategoryWidget extends StatefulWidget {
 }
 
 class _HomeCategoryWidgetState extends State<HomeCategoryWidget> {
-  var selectedCategory = "";
   @override
   void initState() {
     super.initState();
@@ -46,16 +46,14 @@ class _HomeCategoryWidgetState extends State<HomeCategoryWidget> {
             itemBuilder: (conttext, i) {
               return InkWell(
                 onTap: () {
-                  setState(() {
-                    if (selectedCategory != widget.categoryList[i].value) {
-                      selectedCategory = widget.categoryList[i].value;
-                    } else {
-                      selectedCategory = "";
-                    }
-                  });
+                  Provider.of<CategoryNotifierModel>(context, listen: false)
+                      .changeCategory(widget.categoryList[i].value);
 
                   context.read<ProductBloc>().add(
-                        FilterProducts(selectedCategory),
+                        FilterProducts(Provider.of<CategoryNotifierModel>(
+                                context,
+                                listen: false)
+                            .category),
                       );
                 },
                 child: SizedBox(
@@ -77,7 +75,8 @@ class _HomeCategoryWidgetState extends State<HomeCategoryWidget> {
                             const SizedBox(width: 5),
                             Icon(
                               CupertinoIcons.guitars,
-                              color: selectedCategory ==
+                              color: Provider.of<CategoryNotifierModel>(context)
+                                          .category ==
                                       widget.categoryList[i].value
                                   ? const Color.fromARGB(255, 65, 60, 60)
                                   : Colors.white,
@@ -89,10 +88,12 @@ class _HomeCategoryWidgetState extends State<HomeCategoryWidget> {
                               style: TextStyle(
                                 fontSize: mdTextSize,
                                 fontWeight: FontWeight.w800,
-                                color: selectedCategory ==
-                                        widget.categoryList[i].value
-                                    ? const Color.fromARGB(255, 65, 60, 60)
-                                    : Colors.white,
+                                color:
+                                    Provider.of<CategoryNotifierModel>(context)
+                                                .category ==
+                                            widget.categoryList[i].value
+                                        ? const Color.fromARGB(255, 65, 60, 60)
+                                        : Colors.white,
                               ),
                             ),
                           ],

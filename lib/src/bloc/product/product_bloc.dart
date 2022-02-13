@@ -1,6 +1,9 @@
+import 'dart:convert';
+
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:meta/meta.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:shopping_cart/src/model/product_model.dart';
 import 'package:shopping_cart/src/repository/shopping_repository.dart';
 
@@ -13,17 +16,30 @@ class ProductBloc extends Bloc<ProductEvent, ProductState> {
     on<FilterProducts>(_onFilterProducts);
     on<SearchProducts>(_onSearchProducts);
   }
-
+  final Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
   final Repository _repository;
 
   void _onGetProducts(GetProducts event, Emitter<ProductState> emit) async {
     emit(ProductLoading());
     try {
-      var products = await _repository.getProducts();
+      ProductFromBackend products = await checkDataSourceAndRetrieveData();
+
       emit(ProductLoaded(products, products, '', ''));
     } catch (_) {
       emit(ProductError(_.toString()));
     }
+  }
+
+  Future<ProductFromBackend> checkDataSourceAndRetrieveData() async {
+    final SharedPreferences prefs = await _prefs;
+
+    var products = prefs.getString('products') != null
+        ? ProductFromBackend.fromJson(
+            json.decode(prefs.getString('products').toString()))
+        : await _repository.getProducts();
+
+    await prefs.setString('products', jsonEncode(products.toJson()));
+    return products;
   }
 
   void _onFilterProducts(
@@ -36,6 +52,7 @@ class ProductBloc extends Bloc<ProductEvent, ProductState> {
       if (state is ProductLoaded) {
         var products = ProductFromBackend(
             status: true, result: state.originalRecords.result);
+
 
         if (state.searchText != "" || event.category != "") {
           if (event.category != "") {
