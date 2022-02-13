@@ -20,3 +20,12 @@
   <img src="https://github.com/madura7/shopping_cart/blob/main/screenshot/4.png"  height="500" width="260"/> 
 </div>
  
+## Bloc pattern
+i have used flutter bloc pattern to design the application
+<div>
+  <img src="https://github.com/madura7/shopping_cart/blob/main/screenshot/bloc_pattern.png"  height="500" width="260"/>
+</div>
+
+
+You can download apk file from - [here](./apk/bliss_v1.apk)
+
