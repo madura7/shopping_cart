@@ -39,9 +39,9 @@ class _HomePageUIState extends State<HomePageUI> {
             child: SingleChildScrollView(
               child: Column(
                 children: [
-                  const SizedBox(height: 20),
+                  const SizedBox(height: 10),
                   const HomeWelcomeWidget(),
-                  const SizedBox(height: 20),
+                  const SizedBox(height: 10),
                   TextField(
                     decoration: InputDecoration(
                         suffixIcon: const Icon(
